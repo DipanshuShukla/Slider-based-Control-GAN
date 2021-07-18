@@ -112,3 +112,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# pkl files
+models/.stylegan2-cache
+models/results

@@ -151,7 +151,7 @@ class Ui_StyleGan2(object):
         self.imageBox = QtWidgets.QLabel(self.centralwidget)
         self.imageBox.setGeometry(QtCore.QRect(230, 20, 470, 420))
         self.imageBox.setText("")
-        self.imageBox.setPixmap(QtGui.QPixmap("../../GitHub/Slider-based-Control-GAN/avatar.jpeg"))
+        self.imageBox.setPixmap(QtGui.QPixmap("avatar.jpeg"))
         self.imageBox.setScaledContents(True)
         self.imageBox.setObjectName("imageBox")
         StyleGan2.setCentralWidget(self.centralwidget)

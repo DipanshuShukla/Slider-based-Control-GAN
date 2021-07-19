@@ -6,7 +6,9 @@ import matplotlib.pyplot as plt
 # load the image
 IMAGE = Image.open('avatar.jpeg')
 
+
 NO_SLIDERS = 10
+SLIDERS_RANGES = []
 
 
 def get_img(l):

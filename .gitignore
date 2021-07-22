@@ -116,3 +116,4 @@ dmypy.json
 # pkl files
 models/.stylegan2-cache
 models/results
+models/pretrained/stylegan2-ffhq-config-f.pkl

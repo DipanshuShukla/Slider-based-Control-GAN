@@ -1,178 +1,193 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+import random
+
+global SLIDER_NUM
+
+#test
+
+SLIDER_NUM = {'1': 10,'2': 10,'3': 10,'4': 10,'5': 10,'6': 10,'7': 10,'8': 10,'9': 10,'10': 10,'11': 10,'12': 10}
+
+class Ui_Window(object):
+
+	def setupUi(self, Window):
+
+		"/////////// ROOT-WONDOW ///////////"
+
+		Window.setObjectName("Window")
+		Window.resize(622, 446)
+		Window.setWindowIcon(QtGui.QIcon('icon.png'))
+		Window.setWindowTitle("StyleGan2")
+		Window.setMinimumSize(QtCore.QSize(622, 446))
+		Window.setSizeIncrement(QtCore.QSize(-8672, 0))
+
+		self.rootContainer = QtWidgets.QWidget(Window)
+		self.rootContainer.setObjectName("rootContainer")
+		
+		self.gridLayout_2 = QtWidgets.QGridLayout(self.rootContainer)
+		self.gridLayout_2.setObjectName("gridLayout_2")
+		
+
+		"/////////// BUTTONS ///////////"
+		
+		self.buttonsContainer = QtWidgets.QHBoxLayout()
+		self.buttonsContainer.setObjectName("buttonsContainer")
+		
+		#random
+		self.randomButtonContainer = QtWidgets.QVBoxLayout()
+		self.randomButtonContainer.setObjectName("randomButtonContainer")
+		self.randomButton = QtWidgets.QPushButton(self.rootContainer)
+		self.randomButton.setMinimumSize(QtCore.QSize(0, 20))
+		self.randomButton.setObjectName("randomButton")
+		self.randomButton.clicked.connect(self.randomize)
+		self.randomButtonContainer.addWidget(self.randomButton)
+		self.buttonsContainer.addLayout(self.randomButtonContainer)
+		
+		#avearage
+		self.averageButtonContainer = QtWidgets.QVBoxLayout()
+		self.averageButtonContainer.setObjectName("averageButtonContainer")
+		self.averageButton = QtWidgets.QPushButton(self.rootContainer)
+		self.averageButton.setMinimumSize(QtCore.QSize(0, 20))
+		self.averageButton.setObjectName("averageButton")
+		self.averageButtonContainer.addWidget(self.averageButton)
+		self.buttonsContainer.addLayout(self.averageButtonContainer)
+		self.gridLayout_2.addLayout(self.buttonsContainer, 17, 0, 1, 1)
+		
+
+		"/////////// SROLLAREA & SLIDERS ///////////"
+		
+		self.scrollAreaContainer = QtWidgets.QGridLayout()
+		self.scrollAreaContainer.setObjectName("scrollAreaContainer")
+		self.scrollArea = QtWidgets.QScrollArea(self.rootContainer)
+		
+		sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Expanding)
+		sizePolicy.setHorizontalStretch(0)
+		sizePolicy.setVerticalStretch(0)
+		sizePolicy.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
+		
+		self.scrollArea.setSizePolicy(sizePolicy)
+		self.scrollArea.setWidgetResizable(True)
+		self.scrollArea.setObjectName("scrollArea")
+		
+		self.scrollWidgetContents = QtWidgets.QWidget()
+		self.scrollWidgetContents.setGeometry(QtCore.QRect(0, 0, 156, 720))
+		self.scrollWidgetContents.setMinimumSize(QtCore.QSize(0, 720))
+		self.scrollWidgetContents.setObjectName("scrollWidgetContents")
+		self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollWidgetContents)
+		self.verticalLayout_3.setObjectName("verticalLayout_3")
+
+		#keys and range of slider
+
+		bucket = []
+		for pair in SLIDER_NUM.items():
+			bucket.append(pair)
+
+		for i in range(len(bucket)):
+			self.sliderContainer = QtWidgets.QWidget(self.scrollWidgetContents)
+			self.sliderContainer.setMinimumSize(QtCore.QSize(0, 40)) 
+			self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.sliderContainer)
+			self.sliderLabel = QtWidgets.QLabel(self.sliderContainer)
+			self.sliderLabel.setText(bucket[i][0])
+			self.verticalLayout_5.addWidget(self.sliderLabel)
+			self.horizontalSlider = QtWidgets.QSlider(self.sliderContainer)
+			self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
+			
+			#slidervalues
+			self.horizontalSlider.setMinimum(0)
+			self.horizontalSlider.setMaximum(bucket[i][1])
+			self.horizontalSlider.setValue(random.randrange(1,bucket[i][1]))
+			self.horizontalSlider.setTickPosition(self.horizontalSlider.TicksBelow)
+			self.horizontalSlider.setTickInterval(bucket[i][1]//5)
+			
+			self.verticalLayout_5.addWidget(self.horizontalSlider)
+			self.seperator = QtWidgets.QFrame(self.sliderContainer)
+			self.seperator.setFrameShape(QtWidgets.QFrame.HLine)
+			self.seperator.setFrameShadow(QtWidgets.QFrame.Sunken)
+			self.verticalLayout_5.addWidget(self.seperator)
+			self.verticalLayout_3.addWidget(self.sliderContainer)
+
+		self.scrollArea.setWidget(self.scrollWidgetContents)
+		self.scrollAreaContainer.addWidget(self.scrollArea, 0, 1, 1, 1)
+		self.gridLayout_2.addLayout(self.scrollAreaContainer, 1, 0, 16, 1)
+
+		"/////////// COMBOBOX ///////////"
+		self.comboBoxContainer = QtWidgets.QVBoxLayout()
+		self.comboBoxContainer.setObjectName("comboBoxContainer")
+		self.comboBox = QtWidgets.QComboBox(self.rootContainer)
+		self.comboBox.setMinimumSize(QtCore.QSize(0, 20))
+		self.comboBox.setObjectName("comboBox")
+		self.comboBox.addItem("Faces")
+		#just add string to add cars/abstracts/fishes etc. if you want
+		self.comboBox.addItem("Placeholder") 
+		self.comboBox.addItem("Placeholder")
+		self.comboBoxContainer.addWidget(self.comboBox)
+		self.gridLayout_2.addLayout(self.comboBoxContainer, 0, 0, 1, 1)
 
 
-class Ui_StyleGan2(object):
-    def setupUi(self, StyleGan2):
-        StyleGan2.setObjectName("StyleGan2")
-        StyleGan2.resize(720, 480)
-        self.centralwidget = QtWidgets.QWidget(StyleGan2)
-        self.centralwidget.setObjectName("centralwidget")
-        self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
-        self.scrollArea.setEnabled(True)
-        self.scrollArea.setGeometry(QtCore.QRect(20, 60, 180, 361))
-        self.scrollArea.setMouseTracking(False)
-        self.scrollArea.setTabletTracking(False)
-        self.scrollArea.setAcceptDrops(True)
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName("scrollArea")
-        self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 178, 359))
-        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.sliderBox = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        self.sliderBox.setGeometry(QtCore.QRect(10, 10, 160, 40))
-        self.sliderBox.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.sliderBox.setObjectName("sliderBox")
-        self.sliderTitle = QtWidgets.QLabel(self.sliderBox)
-        self.sliderTitle.setGeometry(QtCore.QRect(10, 0, 40, 10))
-        self.sliderTitle.setObjectName("sliderTitle")
-        self.slider = QtWidgets.QSlider(self.sliderBox)
-        self.slider.setGeometry(QtCore.QRect(0, 20, 150, 20))
-        self.slider.setOrientation(QtCore.Qt.Horizontal)
-        self.slider.setObjectName("slider")
-        self.sliderBox_2 = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        self.sliderBox_2.setGeometry(QtCore.QRect(10, 60, 160, 40))
-        self.sliderBox_2.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.sliderBox_2.setObjectName("sliderBox_2")
-        self.sliderTitle_7 = QtWidgets.QLabel(self.sliderBox_2)
-        self.sliderTitle_7.setGeometry(QtCore.QRect(10, 0, 40, 10))
-        self.sliderTitle_7.setObjectName("sliderTitle_7")
-        self.slider_7 = QtWidgets.QSlider(self.sliderBox_2)
-        self.slider_7.setGeometry(QtCore.QRect(0, 20, 150, 20))
-        self.slider_7.setOrientation(QtCore.Qt.Horizontal)
-        self.slider_7.setObjectName("slider_7")
-        self.sliderBox_3 = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        self.sliderBox_3.setGeometry(QtCore.QRect(10, 110, 160, 40))
-        self.sliderBox_3.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.sliderBox_3.setObjectName("sliderBox_3")
-        self.sliderTitle_8 = QtWidgets.QLabel(self.sliderBox_3)
-        self.sliderTitle_8.setGeometry(QtCore.QRect(10, 0, 40, 10))
-        self.sliderTitle_8.setObjectName("sliderTitle_8")
-        self.slider_8 = QtWidgets.QSlider(self.sliderBox_3)
-        self.slider_8.setGeometry(QtCore.QRect(0, 20, 150, 20))
-        self.slider_8.setOrientation(QtCore.Qt.Horizontal)
-        self.slider_8.setObjectName("slider_8")
-        self.sliderBox_4 = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        self.sliderBox_4.setGeometry(QtCore.QRect(10, 160, 160, 40))
-        self.sliderBox_4.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.sliderBox_4.setObjectName("sliderBox_4")
-        self.sliderTitle_9 = QtWidgets.QLabel(self.sliderBox_4)
-        self.sliderTitle_9.setGeometry(QtCore.QRect(10, 0, 40, 10))
-        self.sliderTitle_9.setObjectName("sliderTitle_9")
-        self.slider_9 = QtWidgets.QSlider(self.sliderBox_4)
-        self.slider_9.setGeometry(QtCore.QRect(0, 20, 150, 20))
-        self.slider_9.setOrientation(QtCore.Qt.Horizontal)
-        self.slider_9.setObjectName("slider_9")
-        self.sliderBox_5 = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        self.sliderBox_5.setGeometry(QtCore.QRect(10, 210, 160, 40))
-        self.sliderBox_5.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.sliderBox_5.setObjectName("sliderBox_5")
-        self.sliderTitle_10 = QtWidgets.QLabel(self.sliderBox_5)
-        self.sliderTitle_10.setGeometry(QtCore.QRect(10, 0, 40, 10))
-        self.sliderTitle_10.setObjectName("sliderTitle_10")
-        self.slider_10 = QtWidgets.QSlider(self.sliderBox_5)
-        self.slider_10.setGeometry(QtCore.QRect(0, 20, 150, 20))
-        self.slider_10.setOrientation(QtCore.Qt.Horizontal)
-        self.slider_10.setObjectName("slider_10")
-        self.sliderBox_6 = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        self.sliderBox_6.setGeometry(QtCore.QRect(10, 260, 160, 40))
-        self.sliderBox_6.setCursor(QtGui.QCursor(QtCore.Qt.ClosedHandCursor))
-        self.sliderBox_6.setObjectName("sliderBox_6")
-        self.sliderTitle_11 = QtWidgets.QLabel(self.sliderBox_6)
-        self.sliderTitle_11.setGeometry(QtCore.QRect(10, 0, 40, 10))
-        self.sliderTitle_11.setObjectName("sliderTitle_11")
-        self.slider_11 = QtWidgets.QSlider(self.sliderBox_6)
-        self.slider_11.setGeometry(QtCore.QRect(0, 20, 150, 20))
-        self.slider_11.setOrientation(QtCore.Qt.Horizontal)
-        self.slider_11.setObjectName("slider_11")
-        self.sliderBox_7 = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        self.sliderBox_7.setGeometry(QtCore.QRect(10, 310, 160, 40))
-        self.sliderBox_7.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.sliderBox_7.setObjectName("sliderBox_7")
-        self.sliderTitle_12 = QtWidgets.QLabel(self.sliderBox_7)
-        self.sliderTitle_12.setGeometry(QtCore.QRect(10, 0, 40, 10))
-        self.sliderTitle_12.setObjectName("sliderTitle_12")
-        self.slider_12 = QtWidgets.QSlider(self.sliderBox_7)
-        self.slider_12.setGeometry(QtCore.QRect(0, 20, 150, 20))
-        self.slider_12.setOrientation(QtCore.Qt.Horizontal)
-        self.slider_12.setObjectName("slider_12")
-        self.sliderBox_8 = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        self.sliderBox_8.setGeometry(QtCore.QRect(10, 360, 160, 40))
-        self.sliderBox_8.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.sliderBox_8.setObjectName("sliderBox_8")
-        self.sliderTitle_13 = QtWidgets.QLabel(self.sliderBox_8)
-        self.sliderTitle_13.setGeometry(QtCore.QRect(10, 0, 40, 10))
-        self.sliderTitle_13.setObjectName("sliderTitle_13")
-        self.slider_13 = QtWidgets.QSlider(self.sliderBox_8)
-        self.slider_13.setGeometry(QtCore.QRect(0, 20, 150, 20))
-        self.slider_13.setOrientation(QtCore.Qt.Horizontal)
-        self.slider_13.setObjectName("slider_13")
-        self.sliderBox_9 = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        self.sliderBox_9.setGeometry(QtCore.QRect(10, 410, 160, 40))
-        self.sliderBox_9.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.sliderBox_9.setObjectName("sliderBox_9")
-        self.sliderTitle_15 = QtWidgets.QLabel(self.sliderBox_9)
-        self.sliderTitle_15.setGeometry(QtCore.QRect(10, 0, 40, 10))
-        self.sliderTitle_15.setObjectName("sliderTitle_15")
-        self.slider_15 = QtWidgets.QSlider(self.sliderBox_9)
-        self.slider_15.setGeometry(QtCore.QRect(0, 20, 150, 20))
-        self.slider_15.setOrientation(QtCore.Qt.Horizontal)
-        self.slider_15.setObjectName("slider_15")
-        self.sliderBox_10 = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        self.sliderBox_10.setGeometry(QtCore.QRect(10, 460, 160, 40))
-        self.sliderBox_10.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.sliderBox_10.setObjectName("sliderBox_10")
-        self.sliderTitle_16 = QtWidgets.QLabel(self.sliderBox_10)
-        self.sliderTitle_16.setGeometry(QtCore.QRect(10, 0, 40, 10))
-        self.sliderTitle_16.setObjectName("sliderTitle_16")
-        self.slider_16 = QtWidgets.QSlider(self.sliderBox_10)
-        self.slider_16.setGeometry(QtCore.QRect(0, 20, 150, 20))
-        self.slider_16.setOrientation(QtCore.Qt.Horizontal)
-        self.slider_16.setObjectName("slider_16")
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.comboBox = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox.setGeometry(QtCore.QRect(20, 20, 180, 20))
-        self.comboBox.setObjectName("comboBox")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(50, 440, 121, 20))
-        self.pushButton.setObjectName("pushButton")
-        self.imageBox = QtWidgets.QLabel(self.centralwidget)
-        self.imageBox.setGeometry(QtCore.QRect(219, 20, 481, 441))
-        self.imageBox.setText("")
-        self.imageBox.setPixmap(QtGui.QPixmap("../../GitHub/Slider-based-Control-GAN/avatar.jpeg"))
-        self.imageBox.setScaledContents(True)
-        self.imageBox.setObjectName("imageBox")
-        StyleGan2.setCentralWidget(self.centralwidget)
+		"/////////// SPACING ETC. ///////////"
 
-        self.retranslateUi(StyleGan2)
-        QtCore.QMetaObject.connectSlotsByName(StyleGan2)
+		self.hr1 = QtWidgets.QHBoxLayout()
+		self.hr1.setObjectName("hr1")
+		self.widget = QtWidgets.QWidget(self.rootContainer)
+		self.widget.setObjectName("widget")
+		self.hr1.addWidget(self.widget)
+		self.gridLayout_2.addLayout(self.hr1, 1, 6, 16, 1)
 
-    def retranslateUi(self, StyleGan2):
-        _translate = QtCore.QCoreApplication.translate
-        StyleGan2.setWindowTitle(_translate("StyleGan2", "MainWindow"))
-        self.sliderTitle.setText(_translate("StyleGan2", "abc"))
-        self.sliderTitle_7.setText(_translate("StyleGan2", "abc"))
-        self.sliderTitle_8.setText(_translate("StyleGan2", "abc"))
-        self.sliderTitle_9.setText(_translate("StyleGan2", "abc"))
-        self.sliderTitle_10.setText(_translate("StyleGan2", "abc"))
-        self.sliderTitle_11.setText(_translate("StyleGan2", "abc"))
-        self.sliderTitle_12.setText(_translate("StyleGan2", "abc"))
-        self.sliderTitle_13.setText(_translate("StyleGan2", "abc"))
-        self.sliderTitle_15.setText(_translate("StyleGan2", "abc"))
-        self.sliderTitle_16.setText(_translate("StyleGan2", "abc"))
-        self.comboBox.setItemText(0, _translate("StyleGan2", "Faces"))
-        self.comboBox.setItemText(1, _translate("StyleGan2", "Other"))
-        self.comboBox.setItemText(2, _translate("StyleGan2", "Another"))
-        self.pushButton.setText(_translate("StyleGan2", "Random"))
+		self.hr0 = QtWidgets.QHBoxLayout()
+		self.hr0.setObjectName("hr0")
+		self.widget0 = QtWidgets.QWidget(self.rootContainer)
+		self.widget0.setObjectName("widget0")
+		self.hr0.addWidget(self.widget0)
+		self.gridLayout_2.addLayout(self.hr0, 1, 1, 16, 1)
+
+
+		"/////////// IMAGEBOX ///////////"
+
+		self.imageBoxContainer = QtWidgets.QWidget(self.rootContainer)
+		sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+		sizePolicy.setHorizontalStretch(0)
+		sizePolicy.setVerticalStretch(0)
+		sizePolicy.setHeightForWidth(self.imageBoxContainer.sizePolicy().hasHeightForWidth())
+		self.imageBoxContainer.setSizePolicy(sizePolicy)
+		self.imageBoxContainer.setMinimumSize(QtCore.QSize(412, 412))
+		self.imageBoxContainer.setObjectName("imageBoxContainer")
+		self.gridLayout = QtWidgets.QGridLayout(self.imageBoxContainer)
+		self.gridLayout.setObjectName("gridLayout")
+		self.imageBox = QtWidgets.QLabel(self.imageBoxContainer)
+		sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
+		sizePolicy.setHorizontalStretch(0)
+		sizePolicy.setVerticalStretch(0)
+		sizePolicy.setHeightForWidth(self.imageBox.sizePolicy().hasHeightForWidth())
+		
+		self.imageBox.setSizePolicy(sizePolicy)
+		self.imageBox.setMinimumSize(QtCore.QSize(412, 412))
+		self.imageBox.setSizeIncrement(QtCore.QSize(1, 1))
+		self.imageBox.setPixmap(QtGui.QPixmap("icon.png"))
+		self.imageBox.setScaledContents(True)
+		self.imageBox.setObjectName("imageBox")
+		self.gridLayout.addWidget(self.imageBox, 0, 0, 1, 1)
+		self.gridLayout_2.addWidget(self.imageBoxContainer, 0, 5, 18, 1)
+
+		Window.setCentralWidget(self.rootContainer)
+
+		self.retranslateUi(Window)
+		QtCore.QMetaObject.connectSlotsByName(Window)
+
+	def retranslateUi(self, Window):
+		_translate = QtCore.QCoreApplication.translate
+		Window.setWindowTitle(_translate("Window", "MainWindow"))
+		self.randomButton.setText(_translate("Window", "Random"))
+		self.averageButton.setText(_translate("Window", "Average"))
+
+	def randomize(self):
+		import os, sys
+		os.execv(sys.executable, ['python3'] + sys.argv)
 
 
 if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    StyleGan2 = QtWidgets.QMainWindow()
-    ui = Ui_StyleGan2()
-    ui.setupUi(StyleGan2)
-    StyleGan2.show()
-    sys.exit(app.exec_())
+	import sys  
+	app = QtWidgets.QApplication(sys.argv)
+	Window = QtWidgets.QMainWindow()
+	ui = Ui_Window()
+	ui.setupUi(Window)
+	Window.show()
+	sys.exit(app.exec_())

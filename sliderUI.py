@@ -56,7 +56,9 @@ class Window(QMainWindow):
 		self.imageBox = QtWidgets.QLabel(self)
 		self.imageBox.setPixmap(QtGui.QPixmap("avatar.jpeg"))
 		self.imageBox.setScaledContents(True)
-		self.imageBox.setGeometry(x*30.5, y*4.1, x*66.6, y*91.9)
+		self.imageBox.setGeometry(x*38.3, y*4.1, x*58.8, y*91.9)
+		x = self.imageBox.frameGeometry()
+		print(x)
 
 
 def App():

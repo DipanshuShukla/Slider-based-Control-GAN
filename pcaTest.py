@@ -3,7 +3,7 @@ import numpy as np
 import random as rd
 from sklearn.decomposition import PCA
 from sklearn import preprocessing
-import matplotlib.pyplot as plt # NOTE: This was tested with matplotlib v. 2.1.0
+import matplotlib.pyplot as plt
  
 #########################
 #

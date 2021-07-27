@@ -23,7 +23,7 @@ class ImageGenGAN:
 
 		tflib.init_tf()
 		self.pickle_path = "./models/pretrained/stylegan2-ffhq-config-f.pkl"
-		self.pickle_path = "./models/pretrained/stylegan2-car-config-f.pkl"
+		#self.pickle_path = "./models/pretrained/stylegan2-car-config-f.pkl"
 
 		self._G, self._D, self.Gs = None, None, None
 

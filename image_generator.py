@@ -22,8 +22,8 @@ class ImageGenGAN:
 	def __init__(self):
 
 		tflib.init_tf()
-		self.pickle_path = "./models/pretrained/stylegan2-ffhq-config-f.pkl"
-		#self.pickle_path = "./models/pretrained/stylegan2-car-config-f.pkl"
+		self.pickle_path = "./models/pretrained/stylegan2-ffhq-config-f.pkl" # 9fps
+		#self.pickle_path = "./models/pretrained/stylegan2-car-config-f.pkl" # 14fps
 
 		self._G, self._D, self.Gs = None, None, None
 
@@ -36,6 +36,8 @@ class ImageGenGAN:
 		self.Gs_syn_kwargs.output_transform = dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True)
 		self.Gs_syn_kwargs.randomize_noise = False
 		self.Gs_syn_kwargs.minibatch_size = 4
+
+		self.generate_image() # to initialise and test
 
 	def import_pickle(self):
 
@@ -68,12 +70,24 @@ if __name__ == "__main__":
 
 	Igen.pickle_path = "./models/pretrained/stylegan2-car-config-f.pkl"
 
-	import cv2
+	import cv2, time
 
-	for seed in range(1357,1377):
+	#Igen.generate_image()
+
+	print("Generating 60 images...")
+
+	start = time.time()
+
+	for seed in range(1340,1400):
+		#seed = 7676
 		Igen.set_Z(np.random.RandomState(seed).randn(*Igen.Gs.input_shape[1:]))
 		Igen.set_W()
 
 
-		cv2.imshow("images",Igen.generate_image())
+		cv2.imshow("images",cv2.cvtColor(Igen.generate_image(), cv2.COLOR_BGR2RGB))
 		cv2.waitKey(1)
+
+	time_taken = time.time() - start
+
+	print(f"Completed in {time_taken} seconds.")
+	print(f"resulted in approx. {60//time_taken} fps.")

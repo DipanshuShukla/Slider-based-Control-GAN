@@ -10,7 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import numpy as np
-import random, cv2
+import random
 
 class Ui_UI(object):
 
@@ -180,7 +180,7 @@ class Ui_UI(object):
 		return np.array([slider.value() for slider in self.sliders])
 
 	def set_img(self,img):
-		qImg = QImage(img.data, img.shape[1], img.shape[0], img.shape[1]*3, QImage.Format_RGB888)
+		qImg = QtGui.QImage(img.data, img.shape[1], img.shape[0], img.shape[1]*3, QtGui.QImage.Format_RGB888)
 		self.imgBox.setPixmap(QtGui.QPixmap(qImg))
 
 
@@ -195,6 +195,7 @@ if __name__ == "__main__":
 	ui.setupUi(UI)
 	UI.show()
 
+	import cv2
 	ui.set_img(cv2.imread("avatar.jpeg"))
 
 	sys.exit(app.exec_())

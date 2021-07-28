@@ -68,9 +68,12 @@ if __name__ == "__main__":
 
 	Igen.pickle_path = "./models/pretrained/stylegan2-car-config-f.pkl"
 
-	import matplotlib.pyplot as plt
+	import cv2
+
 	for seed in range(1357,1377):
 		Igen.set_Z(np.random.RandomState(seed).randn(*Igen.Gs.input_shape[1:]))
 		Igen.set_W()
-		plt.imshow(Igen.generate_image())
-		plt.show()
+
+
+		cv2.imshow("images",Igen.generate_image())
+		cv2.waitKey(1)

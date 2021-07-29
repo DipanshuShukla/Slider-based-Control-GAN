@@ -46,8 +46,6 @@ class ImageGenGAN:
 		with open(self.pickle_path, 'rb') as f:
 			self._G, self._D, self.Gs = pickle.load(f)
 
-		self.set_W_avg()
-
 
 		print("Pickle Loaded.")
 
@@ -57,8 +55,8 @@ class ImageGenGAN:
 	def set_W(self):
 		self.w = self.Gs.components.mapping.run(np.stack([self.z]), None)
 
-	def set_W_avg(self):
-		self.w = self.Gs.get_var('dlatent_avg')
+	def get_W(self,seed):
+		return self.Gs.components.mapping.run(np.stack([np.random.RandomState(seed).randn(*self.Gs.input_shape[1:])]), None)
 
 	def generate_image(self):
 		return self.Gs.components.synthesis.run(self.w, **self.Gs_syn_kwargs)[0]

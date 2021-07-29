@@ -2,25 +2,30 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import numpy as np
 import random
 import image_generator, testUI
+from PCA import PCA
 
 class GAN_UI(testUI.Ui_UI):
 	def load_GAN(self):
 
 		self.Gan_ = image_generator.ImageGenGAN()
-		self.totalSliders = self.Gan_.Gs.input_shape[-1]
+		self.pca = PCA(self.Gan_)
+
+		self.totalSliders = self.pca.no_of_PC
 		print(self.totalSliders)
-		self.ranges = [[0,255] for i in range(self.totalSliders)]
+		self.ranges = [[0,self.pca.per_var[1]*100] for i in range(self.totalSliders)]
 
 		self.create_sliders()
 		self.connect_sliders()
+		self.update_image()
 
 	def connect_sliders(self):
 		for i in range(self.totalSliders):
 			self.sliders[i].valueChanged.connect(self.update_image)
 
 	def update_image(self):
-		#print(self.get_z())
-		self.Gan_.set_Z(np.random.RandomState(self.get_z()[0]).randn(self.Gan_.Gs.input_shape[-1]))
+		#print(f"inverse PCA = {len(self.pca.reverse_PCA(self.get_z()))}")
+		self.Gan_.set_Z((self.Gan_.z + self.pca.reverse_PCA(self.get_z())) - self.Gan_.z)
+		#self.Gan_.set_Z([self.pca.reverse_PCA(self.get_z()) * 18])
 		self.Gan_.set_W()
 
 		self.set_img(self.Gan_.generate_image())
@@ -36,10 +41,8 @@ if __name__ == "__main__":
 	#print(range_)
 	
 	ui.setupUi(UI)
-	
-	UI.show()
-	
 	ui.load_GAN()
+	UI.show()
 	#import cv2
 	#ui.set_img(cv2.imread("avatar.jpeg"))
 

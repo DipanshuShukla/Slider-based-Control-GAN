@@ -177,8 +177,8 @@ class Ui_UI(object):
 
 	def randomize(self):
 		
-		#for i in range(self.totalSliders):
-		for i in range(10):
+		for i in range(self.totalSliders):
+		#for i in range(10):
 			range_ = self.ranges[i]
 			self.sliders[i].setSliderPosition(random.randint(range_[0],range_[1]+1))
 
@@ -205,7 +205,7 @@ if __name__ == "__main__":
 	import sys
 	app = QtWidgets.QApplication(sys.argv)
 	UI = QtWidgets.QMainWindow()
-	totalSliders = 20
+	totalSliders = 512
 	ui = Ui_UI(totalSliders, range_:=[[ini:=random.randint(0, 10), random.randint(ini+20, 50)] for i in range(totalSliders)])
 	#print(range_)
 	ui.setupUi(UI)

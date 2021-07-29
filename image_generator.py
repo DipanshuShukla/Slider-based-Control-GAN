@@ -34,7 +34,7 @@ class ImageGenGAN:
 
 		self.Gs_syn_kwargs = dnnlib.EasyDict()
 		self.Gs_syn_kwargs.output_transform = dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True)
-		self.Gs_syn_kwargs.randomize_noise = False
+		self.Gs_syn_kwargs.randomize_noise = True
 		self.Gs_syn_kwargs.minibatch_size = 4
 
 		self.generate_image() # to initialise and test
@@ -78,14 +78,22 @@ if __name__ == "__main__":
 
 	start = time.time()
 
-	for seed in range(1340,1400):
-		#seed = 7676
+	seed = 1
+
+	while True:
+	#for seed in range(1340,1400):
+		#seed = 1
 		Igen.set_Z(np.random.RandomState(seed).randn(*Igen.Gs.input_shape[1:]))
 		Igen.set_W()
 
 
 		cv2.imshow("images",cv2.cvtColor(Igen.generate_image(), cv2.COLOR_BGR2RGB))
 		cv2.waitKey(1)
+
+		if time.time() - start >= 0.5:
+			seed +=1
+			start = time.time()
+
 
 	time_taken = time.time() - start
 

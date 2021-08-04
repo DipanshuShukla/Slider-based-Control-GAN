@@ -16,19 +16,20 @@ class GAN_UI(testUI.Ui_UI):
 
 		self.create_sliders()
 		self.connect_sliders()
-		self.update_image()
+		self.update_UI_image()
 
 	def connect_sliders(self):
 		for i in range(self.totalSliders):
-			self.sliders[i].valueChanged.connect(self.update_image)
+			self.sliders[i].valueChanged.connect(self.update_UI_image)
 
-	def update_image(self):
-		#print(f"inverse PCA = {len(self.pca.reverse_PCA(self.get_z()))}")
-		self.Gan_.set_Z((self.Gan_.z + self.pca.reverse_PCA(self.get_z())) - self.Gan_.z)
-		#self.Gan_.set_Z([self.pca.reverse_PCA(self.get_z()) * 18])
-		self.Gan_.set_W()
+	def update_UI_image(self):
+		if self.update_image:
+			#print(f"inverse PCA = {len(self.pca.reverse_PCA(self.get_z()))}")
+			self.Gan_.set_Z((self.Gan_.z + self.pca.reverse_PCA(self.get_z())) - self.Gan_.z)
+			#self.Gan_.set_Z([self.pca.reverse_PCA(self.get_z()) * 18])
+			self.Gan_.set_W()
 
-		self.set_img(self.Gan_.generate_image())
+			self.set_img(self.Gan_.generate_image())
 
 
 
@@ -39,7 +40,6 @@ if __name__ == "__main__":
 	totalSliders = 20
 	ui = GAN_UI(totalSliders, range_:=[[ini:=random.randint(0, 10), random.randint(ini+20, 50)] for i in range(totalSliders)])
 	#print(range_)
-	
 	ui.setupUi(UI)
 	ui.load_GAN()
 	UI.show()

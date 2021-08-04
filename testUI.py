@@ -18,6 +18,7 @@ class Ui_UI(object):
 		self.totalSliders = z_dimention
 		self.ranges = ranges
 		self.sliders =None
+		self.update_image = True
 
 	def _sliderBox_creator(self,id,range_):
 
@@ -176,20 +177,29 @@ class Ui_UI(object):
 
 
 	def randomize(self):
+		self.update_image = False
 		
-		for i in range(self.totalSliders):
+		for i in range(self.totalSliders-1):
 		#for i in range(10):
 			range_ = self.ranges[i]
-			self.sliders[i].setSliderPosition(random.randint(range_[0],range_[1]+1))
+			self.sliders[i].setSliderPosition(random.randint(int(range_[0]),int(range_[1])+1))
+		self.update_image = True
+		range_ = self.ranges[self.totalSliders-1]
+		self.sliders[self.totalSliders-1].setSliderPosition(random.randint(int(range_[0]),int(range_[1])+1))
 
 	def set_average(self):
-		for i in range(self.totalSliders):
+		self.update_image = False
+
+		for i in range(self.totalSliders-1):
 			range_ = self.ranges[i]
 			self.sliders[i].setSliderPosition(sum(range_)//2)
+		self.update_image = True
+		range_ = self.ranges[self.totalSliders-1]
+		self.sliders[self.totalSliders-1].setSliderPosition(sum(range_)//2)
 
 	def get_z(self):
-		return np.array([slider.value() for slider in self.sliders])
-		#return [slider.value() for slider in self.sliders]
+		#return np.array([slider.value() for slider in self.sliders])
+		return [slider.value() for slider in self.sliders]
 
 	def set_img(self,img):
 		qImg = QtGui.QImage(img.data, img.shape[1], img.shape[0], img.shape[1]*3, QtGui.QImage.Format_RGB888)

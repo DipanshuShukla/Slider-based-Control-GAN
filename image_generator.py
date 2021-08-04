@@ -34,7 +34,7 @@ class ImageGenGAN:
 
 		self.Gs_syn_kwargs = dnnlib.EasyDict()
 		self.Gs_syn_kwargs.output_transform = dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True)
-		self.Gs_syn_kwargs.randomize_noise = True
+		self.Gs_syn_kwargs.randomize_noise = False
 		self.Gs_syn_kwargs.minibatch_size = 4
 
 		self.generate_image() # to initialise and test

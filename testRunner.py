@@ -1,11 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import numpy as np
 import random
-import image_generator, sliderUI
+import image_generator, testUI
 from PCA import PCA
 from copy import deepcopy
 
-class GAN_UI(sliderUI.Ui_UI):
+class GAN_UI(testUI.Ui_UI):
 	def load_GAN(self):
 
 		self.Gan_ = image_generator.ImageGenGAN()

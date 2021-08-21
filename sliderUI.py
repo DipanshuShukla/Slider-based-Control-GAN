@@ -1,7 +1,47 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import numpy as np
+import random
 
 class Ui_UI(object):
+
+	def __init__(self, z_dimention,ranges):
+		self.totalSliders = z_dimention
+		self.ranges = ranges
+		self.sliders =None
+		self.update_image = True
+
+	def _sliderBox_creator(self,id,range_):
+
+		self.sliderBox = QtWidgets.QWidget(self.sliderCont)
+		sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+		sizePolicy.setHorizontalStretch(0)
+		sizePolicy.setVerticalStretch(0)
+		sizePolicy.setHeightForWidth(self.sliderBox.sizePolicy().hasHeightForWidth())
+		self.sliderBox.setSizePolicy(sizePolicy)
+		self.sliderBox.setMinimumSize(QtCore.QSize(0, 60))
+		self.sliderBox.setObjectName("sliderBox")
+		self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.sliderBox)
+		self.verticalLayout_4.setObjectName("verticalLayout_4")
+		self.label = QtWidgets.QLabel(self.sliderBox)
+		self.label.setObjectName("label")
+		self.label.setText(f"PCA #{id+1}")
+		self.verticalLayout_4.addWidget(self.label)
+		self.horizontalSlider = QtWidgets.QSlider(self.sliderBox)
+		self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
+		self.horizontalSlider.setObjectName("horizontalSlider")
+		self.verticalLayout_4.addWidget(self.horizontalSlider)
+		self.verticalLayout_5.addWidget(self.sliderBox)
+		self.verticalLayout_3.addWidget(self.sliderCont)
+		
+		#print(range_)
+		self.horizontalSlider.setMinimum(range_[0])
+		self.horizontalSlider.setMaximum(range_[1])
+		self.horizontalSlider.setSliderPosition(sum(range_)//2)
+		
+		
+
+		return self.horizontalSlider
+
 	def setupUi(self, UI):
 		UI.setObjectName("UI")
 		UI.setWindowModality(QtCore.Qt.NonModal)
@@ -47,29 +87,16 @@ class Ui_UI(object):
 		self.verticalLayout_5.setObjectName("verticalLayout_5")
 
 
+		#slider
+		if __name__ == "__main__":
+			self.create_sliders()
 
-		self.sliderBox = QtWidgets.QWidget(self.sliderCont)
-		sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-		sizePolicy.setHorizontalStretch(0)
-		sizePolicy.setVerticalStretch(0)
-		sizePolicy.setHeightForWidth(self.sliderBox.sizePolicy().hasHeightForWidth())
-		self.sliderBox.setSizePolicy(sizePolicy)
-		self.sliderBox.setMinimumSize(QtCore.QSize(0, 60))
-		self.sliderBox.setObjectName("sliderBox")
-		self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.sliderBox)
-		self.verticalLayout_4.setObjectName("verticalLayout_4")
-		self.label = QtWidgets.QLabel(self.sliderBox)
-		self.label.setObjectName("label")
-		self.verticalLayout_4.addWidget(self.label)
-		self.horizontalSlider = QtWidgets.QSlider(self.sliderBox)
-		self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
-		self.horizontalSlider.setObjectName("horizontalSlider")
-		self.verticalLayout_4.addWidget(self.horizontalSlider)
-		self.verticalLayout_5.addWidget(self.sliderBox)
-		self.verticalLayout_3.addWidget(self.sliderCont)
+
+		
 		self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 		self.scrollAreaCont.addWidget(self.scrollArea)
 		self.gridLayout_4.addLayout(self.scrollAreaCont, 2, 0, 12, 1)
+		
 
 
 		self.comboCont = QtWidgets.QHBoxLayout()
@@ -88,6 +115,7 @@ class Ui_UI(object):
 		self.rndCont.setObjectName("rndCont")
 		self.rndBtn = QtWidgets.QPushButton(self.centralwidget)
 		self.rndBtn.setObjectName("rndBtn")
+		
 		self.rndCont.addWidget(self.rndBtn)
 		self.btnCont.addLayout(self.rndCont)
 		self.avgCont = QtWidgets.QHBoxLayout()
@@ -98,9 +126,11 @@ class Ui_UI(object):
 		self.btnCont.addLayout(self.avgCont)
 		self.gridLayout_4.addLayout(self.btnCont, 14, 0, 1, 1)
 
+		self.rndBtn.clicked.connect(self.randomize)
+		self.avgBtn.clicked.connect(self.set_average)
 
 
-
+		#layer slider
 		self.layerCont = QtWidgets.QVBoxLayout()
 		self.layerCont.setObjectName("layerCont")
 		self.layerBox = QtWidgets.QFrame(self.centralwidget)
@@ -123,6 +153,7 @@ class Ui_UI(object):
 		self.verticalLayout.addWidget(self.layerSlider)
 		self.layerCont.addWidget(self.layerBox)
 		self.gridLayout_4.addLayout(self.layerCont, 1, 0, 1, 1)
+
 
 
 		
@@ -151,19 +182,60 @@ class Ui_UI(object):
 	def retranslateUi(self, UI):
 		_translate = QtCore.QCoreApplication.translate
 		UI.setWindowTitle(_translate("UI", "MainWindow"))
-		self.label.setText(_translate("UI", "TextLabel"))
+		#self.label.setText(_translate("UI", "TextLabel"))
 		self.comboBox.setItemText(0, _translate("UI", "Faces"))
 		self.comboBox.setItemText(1, _translate("UI", "Cars"))
 		self.rndBtn.setText(_translate("UI", "Randomize"))
 		self.avgBtn.setText(_translate("UI", "Average"))
 		self.layerLabel.setText(_translate("UI", "Layers"))
 
+	def randomize(self):
+		self.update_image = False
+		
+		for i in range(self.totalSliders-1):
+		#for i in range(10):
+			range_ = self.ranges[i]
+			self.sliders[i].setSliderPosition(random.randint(int(range_[0]),int(range_[1])+1))
+		self.update_image = True
+		range_ = self.ranges[self.totalSliders-1]
+		self.sliders[self.totalSliders-1].setSliderPosition(random.randint(int(range_[0]),int(range_[1])+1))
+
+	def set_average(self):
+		self.update_image = False
+
+		for i in range(self.totalSliders-1):
+			range_ = self.ranges[i]
+			self.sliders[i].setSliderPosition(sum(range_)//2)
+		self.update_image = True
+		range_ = self.ranges[self.totalSliders-1]
+		self.sliders[self.totalSliders-1].setSliderPosition(sum(range_)//2)
+
+	def get_z(self):
+		#return np.array([slider.value() for slider in self.sliders])
+		return [slider.value() for slider in self.sliders]
+
+	def set_img(self,img):
+		qImg = QtGui.QImage(img.data, img.shape[1], img.shape[0], img.shape[1]*3, QtGui.QImage.Format_RGB888)
+		self.imgBox.setPixmap(QtGui.QPixmap(qImg))
+
+	def create_sliders(self):
+		self.sliders = []
+		for i in range(self.totalSliders):
+			self.sliders.append(self._sliderBox_creator(i,self.ranges[i]))
+
+
 
 if __name__ == "__main__":
 	import sys
 	app = QtWidgets.QApplication(sys.argv)
 	UI = QtWidgets.QMainWindow()
-	ui = Ui_UI()
+	totalSliders = 512
+	ui = Ui_UI(totalSliders, range_:=[[ini:=random.randint(0, 10), random.randint(ini+20, 50)] for i in range(totalSliders)])
+	#print(range_)
 	ui.setupUi(UI)
 	UI.show()
+
+	import cv2
+	ui.set_img(cv2.imread("avatar.jpeg"))
+
 	sys.exit(app.exec_())

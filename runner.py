@@ -3,6 +3,7 @@ import numpy as np
 import random
 import image_generator, testUI
 from PCA import PCA
+from copy import deepcopy
 
 class GAN_UI(testUI.Ui_UI):
 	def load_GAN(self):
@@ -26,7 +27,12 @@ class GAN_UI(testUI.Ui_UI):
 		if self.update_image:
 			#print(f"inverse PCA = {len(self.pca.reverse_PCA(self.get_z()))}")
 			self.Gan_.set_Z((self.Gan_.z + self.pca.reverse_PCA(self.get_z())) - self.Gan_.z)
-			#self.Gan_.set_Z([self.pca.reverse_PCA(self.get_z()) * 18])
+			#self.Gan_.set_Z(np.array[np.array(self.pca.reverse_PCA(self.get_z())) * 18])
+			print(self.Gan_.get_W(1).shape)
+			#self.Gan_.set_Z(np.stack([[deepcopy(self.pca.reverse_PCA(self.get_z())) for i in range(18)]], None))
+			print(self.Gan_.z.shape)
+
+			#return
 			self.Gan_.set_W()
 
 			self.set_img(self.Gan_.generate_image())

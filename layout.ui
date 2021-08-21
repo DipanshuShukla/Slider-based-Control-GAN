@@ -2,40 +2,62 @@
 <ui version="4.0">
  <class>UI</class>
  <widget class="QMainWindow" name="UI">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>969</width>
-    <height>648</height>
+    <width>1109</width>
+    <height>743</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
-    <width>969</width>
-    <height>648</height>
+    <width>1109</width>
+    <height>743</height>
    </size>
+  </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
+  </property>
+  <property name="tabletTracking">
+   <bool>false</bool>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../github/Slider-based-Control-GAN/icon.png</normaloff>../github/Slider-based-Control-GAN/icon.png</iconset>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="1" column="0" rowspan="8">
+   <layout class="QGridLayout" name="gridLayout_4">
+    <item row="2" column="0" rowspan="12">
      <layout class="QVBoxLayout" name="scrollAreaCont">
       <item>
        <widget class="QScrollArea" name="scrollArea">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>560</height>
-         </size>
         </property>
         <property name="widgetResizable">
          <bool>true</bool>
@@ -45,14 +67,14 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>311</width>
-           <height>558</height>
+           <width>358</width>
+           <height>551</height>
           </rect>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
            <widget class="QWidget" name="sliderCont" native="true">
-            <layout class="QVBoxLayout" name="verticalLayout">
+            <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
               <widget class="QWidget" name="sliderBox" native="true">
                <property name="sizePolicy">
@@ -67,21 +89,9 @@
                  <height>60</height>
                 </size>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_6">
+               <layout class="QVBoxLayout" name="verticalLayout_4">
                 <item>
                  <widget class="QLabel" name="label">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>16</height>
-                   </size>
-                  </property>
                   <property name="text">
                    <string>TextLabel</string>
                   </property>
@@ -89,18 +99,6 @@
                 </item>
                 <item>
                  <widget class="QSlider" name="horizontalSlider">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>20</height>
-                   </size>
-                  </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -136,7 +134,7 @@
       </item>
      </layout>
     </item>
-    <item row="9" column="0">
+    <item row="14" column="0">
      <layout class="QHBoxLayout" name="btnCont">
       <item>
        <layout class="QHBoxLayout" name="rndCont">
@@ -162,22 +160,64 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="2" rowspan="10" colspan="2">
-     <widget class="QWidget" name="" native="true">
-      <layout class="QGridLayout" name="imgBoxCont">
+    <item row="1" column="0">
+     <layout class="QVBoxLayout" name="layerCont">
+      <item>
+       <widget class="QFrame" name="layerBox">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLabel" name="layerLabel">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="layerSlider">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="1" rowspan="15" colspan="2">
+     <widget class="QWidget" name="imgBoxCont" native="true">
+      <layout class="QGridLayout" name="imgCont">
        <item row="0" column="0">
         <widget class="QLabel" name="imgBox">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>720</width>
+           <height>720</height>
+          </size>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>icon.png</pixmap>
+          <pixmap>../github/Slider-based-Control-GAN/avatar.jpeg</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>

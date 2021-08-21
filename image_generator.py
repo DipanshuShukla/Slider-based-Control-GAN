@@ -37,6 +37,10 @@ class ImageGenGAN:
 		self.Gs_syn_kwargs.randomize_noise = False
 		self.Gs_syn_kwargs.minibatch_size = 4
 
+		self.layers = len(self.w[0])
+
+		print(f"No of layers = {self.layers}")
+
 		self.generate_image() # to initialise and test
 
 	def import_pickle(self):
@@ -48,6 +52,7 @@ class ImageGenGAN:
 
 
 		print("Pickle Loaded.")
+		#print(self.Gs.components.summary())
 
 	def set_Z(self,z):
 		self.z = z

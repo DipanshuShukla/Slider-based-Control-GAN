@@ -6,7 +6,7 @@ from sklearn import preprocessing
 import matplotlib.pyplot as plt
 import random
 
-NO_OF_SEEDS = 10000
+NO_OF_SEEDS = 1000
 NO_OF_PC = 16
 
 class PCA:
@@ -16,7 +16,7 @@ class PCA:
 
 		self.no_of_PC = NO_OF_PC
 
-		self.pca = skPCA()
+		self.pca = skPCA(n_components = 100)
 		#self.pca = skPCA(n_components = self.no_of_PC)
 		self.data = None
 		self.GAN_ = GAN_
@@ -48,7 +48,7 @@ class PCA:
 		#print(len(pc))
 		print(len(pc +[0 for i in range(self.no_of_PC_-NO_OF_PC)]))
 		#print(len([0 for i in range(self.no_of_PC_-NO_OF_PC)]))
-		return self.pca.inverse_transform(pc +[0 for i in range(self.no_of_PC_-NO_OF_PC)])
+		return self.pca.inverse_transform(pc +[0 for i in range(self.no_of_PC_-NO_OF_PC)])[::-1]
 
 		
 
